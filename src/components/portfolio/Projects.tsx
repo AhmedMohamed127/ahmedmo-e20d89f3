@@ -1,5 +1,7 @@
 import { FolderOpen, ExternalLink } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { useRef } from "react";
 
 const projectsData = [
   {
@@ -7,82 +9,53 @@ const projectsData = [
     year: "2025",
     tech: "Flutter, Maps, Firebase, Shared Preferences, Bloc & Cubit",
     description:
-      "A modern, feature-rich freelancer platform built with Flutter. This application provides a comprehensive solution for connecting freelancers with clients, offering seamless authentication, profile management, and multi-language support.",
-    links: [
-      {
-        type: "playstore",
-        url: "https://play.google.com/store/apps/details?id=com.techorg.freelancer",
-      },
-    ],
+      "A modern, feature-rich freelancer platform built with Flutter. Comprehensive solution for connecting freelancers with clients.",
+    links: [{ type: "playstore", url: "https://play.google.com/store/apps/details?id=com.techorg.freelancer" }],
   },
   {
     name: "Caxi",
     year: "2025",
     tech: "Flutter, Maps, Firebase, Shared Preferences, Bloc & Cubit",
     description:
-      "A comprehensive Uber-like ride-sharing application built with Flutter, featuring clean architecture, Firebase backend, and role-based user management.",
-    links: [
-      {
-        type: "website",
-        url: "https://caxiapp0-sinai.github.io/CaxiApp/",
-      },
-    ],
+      "A comprehensive Uber-like ride-sharing application featuring clean architecture, Firebase backend, and role-based user management.",
+    links: [{ type: "website", url: "https://caxiapp0-sinai.github.io/CaxiApp/" }],
   },
   {
     name: "El Sadeken & Sadekat",
     year: "2025",
-    tech: "Flutter, API, Shared Preferences, Pusher, Firebase, Bloc & Cubit",
+    tech: "Flutter, API, Pusher, Firebase, Bloc & Cubit",
     description:
-      "A Saudi mobile application designed to facilitate serious and lawful marriage in line with Islamic principles and Saudi traditions. It provides a secure, private, and respectful platform for men and women seeking marriage, with advanced search tools to find compatible partners.",
+      "A Saudi mobile application designed to facilitate serious and lawful marriage in line with Islamic principles.",
+    links: [{ type: "github", url: "https://gist.github.com/AhmedMohamed127/ba42804f17fbc8f043ce823a8683f130" }],
+  },
+  {
+    name: "Dalilkom",
+    year: "2024",
+    tech: "Flutter, API, Firebase, Provider",
+    description:
+      "Facilitates daily life by providing service places and offers from more than 52,000 locations around you.",
     links: [
-      {
-        type: "github",
-        url: "https://gist.github.com/AhmedMohamed127/ba42804f17fbc8f043ce823a8683f130",
-      },
+      { type: "playstore", url: "https://play.google.com/store/apps/details?id=com.elnooronline.dalilkoom" },
     ],
   },
   {
-    name: "Dalilkom Comprehensive Guide",
+    name: "رشة مي",
     year: "2024",
-    tech: "Flutter, API, Shared Preferences, Firebase, Provider",
+    tech: "Flutter, API, Firebase, Provider, Bloc, Cubit",
     description:
-      "A unique application that aims to facilitate daily life by providing service places, features, dates and offers. Book and enjoy extraordinary experiences by quickly accessing the places of service provision from more than 52,000 locations around you.",
+      "Schedule car wash services easily. Pick a location, select a time, browse options, and pay electronically.",
     links: [
-      {
-        type: "playstore",
-        url: "https://play.google.com/store/apps/details?id=com.elnooronline.dalilkoom&pcampaignid=web_share",
-      },
-    ],
-  },
-  {
-    name: "رشة مي (Rashat May)",
-    year: "2024",
-    tech: "Flutter, API, Shared Preferences, Firebase, Provider, Bloc, Cubit",
-    description:
-      "An app where users can easily schedule car wash services. They pick a location, select a convenient time, browse through service options with pictures, and pay electronically all within the app.",
-    links: [
-      {
-        type: "playstore",
-        url: "https://play.google.com/store/apps/details?id=com.elnooronline.rashatmay",
-      },
-      {
-        type: "appstore",
-        url: "https://apps.apple.com/us/app/rashat-may-%D8%B1%D8%B4%D8%A9-%D9%85%D9%8A/id6470158572",
-      },
+      { type: "playstore", url: "https://play.google.com/store/apps/details?id=com.elnooronline.rashatmay" },
+      { type: "appstore", url: "https://apps.apple.com/us/app/rashat-may-%D8%B1%D8%B4%D8%A9-%D9%85%D9%8A/id6470158572" },
     ],
   },
   {
     name: "Madaresco",
     year: "2023",
-    tech: "Flutter, API, Shared Preferences, Firebase, Provider, Bloc, Cubit",
+    tech: "Flutter, API, Firebase, Provider, Bloc, Cubit",
     description:
-      "It allows the student to know the study schedule, exam schedule, the latest news, assignments, lessons and school installments and can correspond with any teacher or administration through the application. Available inside the State of Iraq.",
-    links: [
-      {
-        type: "playstore",
-        url: "https://play.google.com/store/apps/details?id=com.elnooronline.alawael&pcampaignid=web_share",
-      },
-    ],
+      "Students can view schedules, news, assignments, lessons, and correspond with teachers. Available in Iraq.",
+    links: [{ type: "playstore", url: "https://play.google.com/store/apps/details?id=com.elnooronline.alawael" }],
   },
 ];
 
@@ -112,56 +85,93 @@ const StoreIcon = ({ type }: { type: string }) => {
 };
 
 export const Projects = () => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   return (
-    <section className="py-16 px-4 bg-muted/30">
-      <div className="container max-w-4xl mx-auto">
-        <div className="flex items-center gap-3 mb-8">
-          <FolderOpen className="text-primary" size={32} />
-          <h2 className="text-3xl font-bold text-foreground">Projects</h2>
-        </div>
-        
-        <div className="grid gap-6">
-          {projectsData.map((project, index) => (
-            <Card key={index} className="border-l-4 border-l-primary">
-              <CardContent className="pt-6">
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-2">
-                  <h3 className="text-xl font-semibold text-foreground">
-                    {project.name}
-                  </h3>
-                  <span className="text-sm font-medium text-primary whitespace-nowrap">
-                    {project.year}
-                  </span>
-                </div>
-                <p className="text-sm text-primary/80 mb-3">{project.tech}</p>
-                <p className="text-muted-foreground mb-4 leading-relaxed">
-                  {project.description}
-                </p>
-                <div className="flex gap-3">
-                  {project.links.map((link, i) => (
-                    <a
-                      key={i}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-sm"
-                    >
-                      <StoreIcon type={link.type} />
-                      <span className="capitalize">
-                        {link.type === "playstore"
-                          ? "Play Store"
-                          : link.type === "appstore"
-                          ? "App Store"
-                          : link.type === "github"
-                          ? "GitHub"
-                          : "Website"}
+    <section className="py-20 px-4">
+      <div className="container max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="flex items-center gap-3 mb-10 px-4"
+        >
+          <FolderOpen className="text-accent" size={36} />
+          <h2 className="text-3xl md:text-4xl font-bold text-gradient">Projects</h2>
+        </motion.div>
+
+        {/* Horizontal scrollable container */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="relative"
+        >
+          <div
+            ref={scrollRef}
+            className="flex gap-6 overflow-x-auto pb-6 px-4 snap-x snap-mandatory scrollbar-hide"
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+          >
+            {projectsData.map((project, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="snap-start"
+              >
+                <Card className="min-w-[320px] max-w-[360px] h-full bg-card/50 backdrop-blur-sm border-border hover:border-accent/50 card-hover flex flex-col">
+                  <CardContent className="pt-6 flex flex-col h-full">
+                    <div className="flex items-start justify-between gap-2 mb-3">
+                      <h3 className="text-xl font-semibold text-foreground">{project.name}</h3>
+                      <span className="text-xs font-medium px-2 py-1 rounded-full bg-accent/20 text-accent whitespace-nowrap">
+                        {project.year}
                       </span>
-                    </a>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                    </div>
+                    <p className="text-xs text-primary/80 mb-3 line-clamp-2">{project.tech}</p>
+                    <p className="text-sm text-muted-foreground mb-4 flex-1 line-clamp-3">{project.description}</p>
+                    <div className="flex gap-2 flex-wrap mt-auto">
+                      {project.links.map((link, i) => (
+                        <motion.a
+                          key={i}
+                          href={link.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-sm"
+                        >
+                          <StoreIcon type={link.type} />
+                          <span className="capitalize">
+                            {link.type === "playstore"
+                              ? "Play Store"
+                              : link.type === "appstore"
+                              ? "App Store"
+                              : link.type === "github"
+                              ? "GitHub"
+                              : "Website"}
+                          </span>
+                        </motion.a>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+          
+          {/* Scroll indicators */}
+          <div className="absolute left-0 top-0 bottom-6 w-8 bg-gradient-to-r from-background to-transparent pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-6 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none" />
+        </motion.div>
+
+        <p className="text-center text-muted-foreground text-sm mt-4">← Scroll to explore more projects →</p>
       </div>
     </section>
   );
