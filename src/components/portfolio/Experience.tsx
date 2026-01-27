@@ -1,5 +1,6 @@
 import { Briefcase } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
 
 const experienceData = [
   {
@@ -60,35 +61,48 @@ const experienceData = [
 
 export const Experience = () => {
   return (
-    <section className="py-16 px-4">
+    <section className="py-20 px-4">
       <div className="container max-w-4xl mx-auto">
-        <div className="flex items-center gap-3 mb-8">
-          <Briefcase className="text-primary" size={32} />
-          <h2 className="text-3xl font-bold text-foreground">Professional Experience</h2>
-        </div>
-        
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="flex items-center gap-3 mb-10"
+        >
+          <Briefcase className="text-secondary" size={36} />
+          <h2 className="text-3xl md:text-4xl font-bold text-gradient">Professional Experience</h2>
+        </motion.div>
+
         <div className="space-y-6">
           {experienceData.map((exp, index) => (
-            <Card key={index} className="border-l-4 border-l-primary">
-              <CardContent className="pt-6">
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-1">
-                  <h3 className="text-xl font-semibold text-foreground">
-                    {exp.title}
-                  </h3>
-                  <span className="text-sm font-medium text-primary whitespace-nowrap">
-                    {exp.period}
-                  </span>
-                </div>
-                <p className="text-muted-foreground mb-3">
-                  {exp.company} | {exp.location}
-                </p>
-                <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                  {exp.highlights.map((highlight, i) => (
-                    <li key={i} className="leading-relaxed">{highlight}</li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <Card className="bg-card/50 backdrop-blur-sm border-border hover:border-secondary/50 card-hover">
+                <CardContent className="pt-6">
+                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-2 mb-1">
+                    <h3 className="text-xl font-semibold text-foreground">{exp.title}</h3>
+                    <span className="text-sm font-medium text-secondary whitespace-nowrap">{exp.period}</span>
+                  </div>
+                  <p className="text-muted-foreground mb-3">
+                    {exp.company} | {exp.location}
+                  </p>
+                  <ul className="space-y-2">
+                    {exp.highlights.map((highlight, i) => (
+                      <li key={i} className="flex items-start gap-2 text-muted-foreground leading-relaxed">
+                        <span className="text-accent mt-1.5">•</span>
+                        <span>{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
         </div>
       </div>
