@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 export const Contact = () => {
   return (
-    <section className="py-20 px-4">
+    <section id="contact" className="py-20 px-4">
       <div className="container max-w-4xl mx-auto">
         {/* Open to Work Banner */}
         <motion.div
