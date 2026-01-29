@@ -102,10 +102,22 @@
   .animated-bg {
     background: linear-gradient(
       -45deg,
-      hsl(222 47% 6%),
+      hsl(var(--background)),
       hsl(240 50% 8%),
       hsl(280 50% 8%),
-      hsl(222 47% 6%)
+      hsl(var(--background))
+    );
+    background-size: 400% 400%;
+    animation: gradient-shift 15s ease infinite;
+  }
+
+  .light .animated-bg {
+    background: linear-gradient(
+      -45deg,
+      hsl(210 40% 98%),
+      hsl(210 40% 96%),
+      hsl(220 40% 94%),
+      hsl(210 40% 98%)
     );
     background-size: 400% 400%;
     animation: gradient-shift 15s ease infinite;
@@ -142,6 +154,10 @@
     background: hsl(var(--primary) / 0.3);
     border-radius: 50%;
     animation: float 20s infinite;
+  }
+
+  .light .particle {
+    background: hsl(var(--primary) / 0.5);
   }
 
   @keyframes float {

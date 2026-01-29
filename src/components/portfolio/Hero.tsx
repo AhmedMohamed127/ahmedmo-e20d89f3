@@ -30,11 +30,11 @@ export const Hero = () => {
           className="mb-8"
         >
           <div className="relative inline-block">
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary via-secondary to-accent blur-lg opacity-50 animate-pulse-glow" />
+            <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-primary via-secondary to-accent blur-lg opacity-50 animate-pulse-glow" />
             <img
               src={profileImage}
               alt="Ahmed Mohamed"
-              className="relative w-40 h-40 md:w-48 md:h-48 rounded-full object-cover border-4 border-primary/50 shadow-2xl"
+              className="relative w-48 h-48 md:w-56 md:h-56 rounded-full object-cover object-top border-4 border-primary/50 shadow-2xl"
             />
           </div>
         </motion.div>
