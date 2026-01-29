@@ -88,7 +88,7 @@ export const Projects = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section className="py-20 px-4">
+    <section id="projects" className="py-20 px-4">
       <div className="container max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
