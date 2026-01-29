@@ -34,7 +34,7 @@ export const Hero = () => {
             <img
               src={profileImage}
               alt="Ahmed Mohamed"
-              className="relative w-48 h-48 md:w-56 md:h-56 rounded-full object-contain bg-card border-4 border-primary/50 shadow-2xl"
+              className="relative w-48 h-48 md:w-56 md:h-56 rounded-full object-contain bg-black border-4 border-primary/50 shadow-2xl"
             />
           </div>
         </motion.div>
