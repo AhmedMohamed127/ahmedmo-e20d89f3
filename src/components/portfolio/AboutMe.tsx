@@ -20,7 +20,7 @@ const highlights = [
 
 export const AboutMe = () => {
   return (
-    <section id="about" className="py-20 px-4">
+    <section className="py-20 px-4">
       <div className="container max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

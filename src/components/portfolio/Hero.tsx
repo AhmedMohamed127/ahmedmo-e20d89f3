@@ -20,7 +20,7 @@ const socialLinks = [
 
 export const Hero = () => {
   return (
-    <section id="hero" className="py-24 px-4 min-h-[80vh] flex items-center pt-32">
+    <section className="py-24 px-4 min-h-[80vh] flex items-center">
       <div className="container max-w-4xl mx-auto text-center">
         {/* Profile Image */}
         <motion.div
