@@ -1,5 +1,6 @@
-import { Phone, Mail, Github, Linkedin } from "lucide-react";
+import { Phone, Mail, Github, Linkedin, Download } from "lucide-react";
 import { motion } from "framer-motion";
+import profileImage from "@/assets/profile.jpeg";
 
 const socialLinks = [
   { href: "tel:+201000782130", icon: Phone, label: "+201000782130" },
@@ -21,10 +22,27 @@ export const Hero = () => {
   return (
     <section className="py-24 px-4 min-h-[80vh] flex items-center">
       <div className="container max-w-4xl mx-auto text-center">
+        {/* Profile Image */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="mb-8"
+        >
+          <div className="relative inline-block">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary via-secondary to-accent blur-lg opacity-50 animate-pulse-glow" />
+            <img
+              src={profileImage}
+              alt="Ahmed Mohamed"
+              className="relative w-40 h-40 md:w-48 md:h-48 rounded-full object-cover border-4 border-primary/50 shadow-2xl"
+            />
+          </div>
+        </motion.div>
+
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
           className="text-5xl md:text-7xl font-bold mb-4 text-gradient"
         >
           Ahmed Mohamed
@@ -33,7 +51,7 @@ export const Hero = () => {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
           className="text-xl md:text-2xl text-primary font-medium mb-6"
         >
           Senior Flutter Developer | Instructor | TA
@@ -42,17 +60,37 @@ export const Hero = () => {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-lg text-muted-foreground max-w-2xl mx-auto mb-10"
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8"
         >
-          Crafting seamless, high-performance mobile experiences with Flutter. I transform ideas into
-          elegant, scalable applications that users love and businesses rely on.
+          Crafting seamless, high-performance mobile experiences with Flutter. I transform ideas into elegant, scalable
+          applications that users love and businesses rely on.
         </motion.p>
+
+        {/* Download CV Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.7 }}
+          className="mb-10"
+        >
+          <motion.a
+            href="https://drive.google.com/file/d/1dwUr15S9XyhDWuiIAIMC-aGTLMWlBURD/view?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-lg bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all duration-300"
+          >
+            <Download size={20} />
+            <span>Download CV</span>
+          </motion.a>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
           className="flex flex-wrap justify-center gap-4"
         >
           {socialLinks.map((link, index) => {
@@ -67,7 +105,7 @@ export const Hero = () => {
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 + index * 0.1 }}
+                transition={{ delay: 0.9 + index * 0.1 }}
                 className="flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-border hover:border-primary hover:glow-primary text-foreground transition-all duration-300"
               >
                 <Icon size={18} />
