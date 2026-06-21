@@ -1,7 +1,7 @@
-import { FolderOpen, ExternalLink } from "lucide-react";
+import { FolderOpen, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { motion } from "framer-motion";
-import { useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 const projectsData = [
   {
@@ -85,7 +85,18 @@ const StoreIcon = ({ type }: { type: string }) => {
 };
 
 export const Projects = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+  const total = projectsData.length;
+
+  const go = (dir: number) => setActive((p) => (p + dir + total) % total);
+
+  // Compute signed offset in shortest direction (handles wrap-around)
+  const getOffset = (i: number) => {
+    let d = i - active;
+    if (d > total / 2) d -= total;
+    if (d < -total / 2) d += total;
+    return d;
+  };
 
   return (
     <section className="py-20 px-4">
@@ -101,77 +112,113 @@ export const Projects = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-gradient">Projects</h2>
         </motion.div>
 
-        {/* Horizontal scrollable container */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="relative"
+        <div
+          className="relative h-[460px] md:h-[440px] flex items-center justify-center"
+          style={{ perspective: "1600px" }}
         >
-          <div
-            ref={scrollRef}
-            className="flex gap-6 overflow-x-auto pb-6 px-4 snap-x snap-mandatory scrollbar-hide"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
-          >
-            {projectsData.map((project, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="snap-start"
-              >
-                <Card className="min-w-[320px] max-w-[360px] h-full bg-card/50 backdrop-blur-sm border-border hover:border-accent/50 card-hover flex flex-col">
-                  <CardContent className="pt-6 flex flex-col h-full">
-                    <div className="flex items-start justify-between gap-2 mb-3">
-                      <h3 className="text-xl font-semibold text-foreground">{project.name}</h3>
-                      <span className="text-xs font-medium px-2 py-1 rounded-full bg-accent/20 text-accent whitespace-nowrap">
-                        {project.year}
-                      </span>
-                    </div>
-                    <p className="text-xs text-primary/80 mb-3 line-clamp-2">{project.tech}</p>
-                    <p className="text-sm text-muted-foreground mb-4 flex-1 line-clamp-3">{project.description}</p>
-                    <div className="flex gap-2 flex-wrap mt-auto">
-                      {project.links.map((link, i) => (
-                        <motion.a
-                          key={i}
-                          href={link.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-sm"
-                        >
-                          <StoreIcon type={link.type} />
-                          <span className="capitalize">
-                            {link.type === "playstore"
-                              ? "Play Store"
-                              : link.type === "appstore"
-                              ? "App Store"
-                              : link.type === "github"
-                              ? "GitHub"
-                              : "Website"}
-                          </span>
-                        </motion.a>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-          
-          {/* Scroll indicators */}
-          <div className="absolute left-0 top-0 bottom-6 w-8 bg-gradient-to-r from-background to-transparent pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-6 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none" />
-        </motion.div>
+          {/* Cards */}
+          <div className="relative w-full h-full" style={{ transformStyle: "preserve-3d" }}>
+            {projectsData.map((project, i) => {
+              const offset = getOffset(i);
+              const abs = Math.abs(offset);
+              const isActive = offset === 0;
+              const visible = abs <= 3;
 
-        <p className="text-center text-muted-foreground text-sm mt-4">← Scroll to explore more projects →</p>
+              return (
+                <motion.div
+                  key={project.name}
+                  className="absolute top-1/2 left-1/2 w-[320px] md:w-[380px]"
+                  animate={{
+                    x: `calc(-50% + ${offset * 140}px)`,
+                    y: "-50%",
+                    rotateY: offset * -22,
+                    scale: isActive ? 1 : 1 - Math.min(abs, 3) * 0.08,
+                    z: isActive ? 100 : -abs * 120,
+                    opacity: visible ? (isActive ? 1 : 0.55 - abs * 0.12) : 0,
+                    zIndex: 100 - abs,
+                  }}
+                  transition={{ type: "spring", stiffness: 180, damping: 24 }}
+                  style={{ transformStyle: "preserve-3d", transformOrigin: "center center" }}
+                  onClick={() => !isActive && setActive(i)}
+                >
+                  <Card
+                    className={`h-[400px] bg-card/70 backdrop-blur-xl border-border flex flex-col ${
+                      isActive
+                        ? "border-accent/60 shadow-[0_30px_80px_-15px_hsl(var(--accent)/0.5)] cursor-default"
+                        : "cursor-pointer hover:border-accent/40"
+                    }`}
+                  >
+                    <CardContent className="pt-6 flex flex-col h-full">
+                      <div className="flex items-start justify-between gap-2 mb-3">
+                        <h3 className="text-xl font-semibold text-foreground">{project.name}</h3>
+                        <span className="text-xs font-medium px-2 py-1 rounded-full bg-accent/20 text-accent whitespace-nowrap">
+                          {project.year}
+                        </span>
+                      </div>
+                      <p className="text-xs text-primary/80 mb-3 line-clamp-2">{project.tech}</p>
+                      <p className="text-sm text-muted-foreground mb-4 flex-1">{project.description}</p>
+                      <div className="flex gap-2 flex-wrap mt-auto">
+                        {project.links.map((link, idx) => (
+                          <motion.a
+                            key={idx}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={(e) => !isActive && e.preventDefault()}
+                            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-sm"
+                          >
+                            <StoreIcon type={link.type} />
+                            <span className="capitalize">
+                              {link.type === "playstore"
+                                ? "Play Store"
+                                : link.type === "appstore"
+                                ? "App Store"
+                                : link.type === "github"
+                                ? "GitHub"
+                                : "Website"}
+                            </span>
+                          </motion.a>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Controls */}
+          <button
+            aria-label="Previous project"
+            onClick={() => go(-1)}
+            className="absolute left-2 md:left-6 z-[200] p-3 rounded-full bg-card/70 backdrop-blur-md border border-border hover:border-accent hover:bg-card transition-all hover:scale-110"
+          >
+            <ChevronLeft className="text-foreground" />
+          </button>
+          <button
+            aria-label="Next project"
+            onClick={() => go(1)}
+            className="absolute right-2 md:right-6 z-[200] p-3 rounded-full bg-card/70 backdrop-blur-md border border-border hover:border-accent hover:bg-card transition-all hover:scale-110"
+          >
+            <ChevronRight className="text-foreground" />
+          </button>
+        </div>
+
+        {/* Dots */}
+        <div className="flex justify-center gap-2 mt-6">
+          {projectsData.map((_, i) => (
+            <button
+              key={i}
+              aria-label={`Go to project ${i + 1}`}
+              onClick={() => setActive(i)}
+              className={`h-2 rounded-full transition-all ${
+                i === active ? "w-8 bg-accent" : "w-2 bg-muted-foreground/40 hover:bg-muted-foreground"
+              }`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
